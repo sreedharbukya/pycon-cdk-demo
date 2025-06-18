@@ -1,0 +1,60 @@
+{
+  "app": "python3 app.py",
+  "@aws-cdk/aws-rds:instancePerformanceInsightsOverridden": true,
+  "context": {
+    "development": {
+      "env": "development",
+      "region": "us-east-1",
+      "vpc": {
+        "region": "us-east-1",
+        "cidr": "10.0.0.0/16",
+        "max_azs": 2,
+        "enable_nat_gateway": true,
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true
+      },
+      "s3": [
+        {
+          "bucket_name": "pycon.day1.store.development"
+        },
+        {
+          "bucket_name": "pycon.day1.store.backup.development"
+        }
+      ]
+    },
+    "staging": {
+      "env": "staging",
+      "region": "us-east-1",
+      "vpc": {
+        "region": "us-east-1",
+        "cidr": "10.1.0.0/16",
+        "max_azs": 2,
+        "enable_nat_gateway": true,
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true
+      },
+      "s3": [
+        {
+          "bucket_name": "pycon.day1.store.staging"
+        }
+      ]
+    },
+    "production": {
+      "env": "production",
+      "region": "us-east-1",
+      "vpc": {
+        "region": "us-east-1",
+        "cidr": "10.2.0.0/16",
+        "max_azs": 3,
+        "enable_nat_gateway": true,
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true
+      },
+      "s3": [
+        {
+          "bucket_name": "pycon.day1.store.production"
+        }
+      ]
+    }
+  }
+}

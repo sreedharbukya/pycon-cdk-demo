@@ -1,0 +1,783 @@
+{
+ "Description": "VPC infrastructure for development environment",
+ "Resources": {
+  "Vpcdevelopment467DC569": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/Resource"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet1SubnetB91B489B": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public-subnet-development"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1/Subnet"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet1RouteTable610D24E6": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1/RouteTable"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet1RouteTableAssociation5ADB3865": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet1RouteTable610D24E6"
+    },
+    "SubnetId": {
+     "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet1SubnetB91B489B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1/RouteTableAssociation"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet1DefaultRoute01A3458A": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "VpcdevelopmentIGW7027369F"
+    },
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet1RouteTable610D24E6"
+    }
+   },
+   "DependsOn": [
+    "VpcdevelopmentVPCGW324DCB00"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1/DefaultRoute"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet1EIPFC825E1B": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1/EIP"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet1NATGateway8698C024": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "VpcdevelopmentpublicsubnetdevelopmentSubnet1EIPFC825E1B",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet1SubnetB91B489B"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "VpcdevelopmentpublicsubnetdevelopmentSubnet1DefaultRoute01A3458A",
+    "VpcdevelopmentpublicsubnetdevelopmentSubnet1RouteTableAssociation5ADB3865"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet1/NATGateway"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet2Subnet37E9F6C5": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public-subnet-development"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet2/Subnet"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet2RouteTable9740589D": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet2/RouteTable"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet2RouteTableAssociationDC697288": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet2RouteTable9740589D"
+    },
+    "SubnetId": {
+     "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet2Subnet37E9F6C5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet2/RouteTableAssociation"
+   }
+  },
+  "VpcdevelopmentpublicsubnetdevelopmentSubnet2DefaultRouteE78E2266": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "VpcdevelopmentIGW7027369F"
+    },
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet2RouteTable9740589D"
+    }
+   },
+   "DependsOn": [
+    "VpcdevelopmentVPCGW324DCB00"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/public-subnet-developmentSubnet2/DefaultRoute"
+   }
+  },
+  "VpcdevelopmentprivatesubnetdevelopmentSubnet1SubnetB172A060": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.2.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private-subnet-development"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet1/Subnet"
+   }
+  },
+  "VpcdevelopmentprivatesubnetdevelopmentSubnet1RouteTable4E9484F4": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet1/RouteTable"
+   }
+  },
+  "VpcdevelopmentprivatesubnetdevelopmentSubnet1RouteTableAssociation17161B94": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet1RouteTable4E9484F4"
+    },
+    "SubnetId": {
+     "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet1SubnetB172A060"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet1/RouteTableAssociation"
+   }
+  },
+  "VpcdevelopmentprivatesubnetdevelopmentSubnet1DefaultRoute40A083AE": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet1NATGateway8698C024"
+    },
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet1RouteTable4E9484F4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet1/DefaultRoute"
+   }
+  },
+  "VpcdevelopmentprivatesubnetdevelopmentSubnet2Subnet9BD24A09": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.3.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private-subnet-development"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet2/Subnet"
+   }
+  },
+  "VpcdevelopmentprivatesubnetdevelopmentSubnet2RouteTable906735D0": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet2/RouteTable"
+   }
+  },
+  "VpcdevelopmentprivatesubnetdevelopmentSubnet2RouteTableAssociationD6E903ED": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet2RouteTable906735D0"
+    },
+    "SubnetId": {
+     "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet2Subnet9BD24A09"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet2/RouteTableAssociation"
+   }
+  },
+  "VpcdevelopmentprivatesubnetdevelopmentSubnet2DefaultRoute0B0E7CAA": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet1NATGateway8698C024"
+    },
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet2RouteTable906735D0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/private-subnet-developmentSubnet2/DefaultRoute"
+   }
+  },
+  "VpcdevelopmentisolatedsubnetdevelopmentSubnet1SubnetA20ADE60": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.4.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "isolated-subnet-development"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet1/Subnet"
+   }
+  },
+  "VpcdevelopmentisolatedsubnetdevelopmentSubnet1RouteTable81E71BD5": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet1/RouteTable"
+   }
+  },
+  "VpcdevelopmentisolatedsubnetdevelopmentSubnet1RouteTableAssociation929F5B58": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentisolatedsubnetdevelopmentSubnet1RouteTable81E71BD5"
+    },
+    "SubnetId": {
+     "Ref": "VpcdevelopmentisolatedsubnetdevelopmentSubnet1SubnetA20ADE60"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet1/RouteTableAssociation"
+   }
+  },
+  "VpcdevelopmentisolatedsubnetdevelopmentSubnet2Subnet768EA2AB": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.5.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "isolated-subnet-development"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet2/Subnet"
+   }
+  },
+  "VpcdevelopmentisolatedsubnetdevelopmentSubnet2RouteTableF587DA58": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet2/RouteTable"
+   }
+  },
+  "VpcdevelopmentisolatedsubnetdevelopmentSubnet2RouteTableAssociationB2C25974": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "VpcdevelopmentisolatedsubnetdevelopmentSubnet2RouteTableF587DA58"
+    },
+    "SubnetId": {
+     "Ref": "VpcdevelopmentisolatedsubnetdevelopmentSubnet2Subnet768EA2AB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/isolated-subnet-developmentSubnet2/RouteTableAssociation"
+   }
+  },
+  "VpcdevelopmentIGW7027369F": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/IGW"
+   }
+  },
+  "VpcdevelopmentVPCGW324DCB00": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "VpcdevelopmentIGW7027369F"
+    },
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/VPCGW"
+   }
+  },
+  "VpcdevelopmentS3GatewayEndpoint7A85B5DB": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "RouteTableIds": [
+     {
+      "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet1RouteTable4E9484F4"
+     },
+     {
+      "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet2RouteTable906735D0"
+     }
+    ],
+    "ServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "com.amazonaws.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".s3"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development"
+     }
+    ],
+    "VpcEndpointType": "Gateway",
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/S3GatewayEndpoint/Resource"
+   }
+  },
+  "VpcdevelopmentDynamoDbGatewayEndpoint641D29CA": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "RouteTableIds": [
+     {
+      "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet1RouteTable4E9484F4"
+     },
+     {
+      "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet2RouteTable906735D0"
+     }
+    ],
+    "ServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "com.amazonaws.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".dynamodb"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcStack-development/Vpc-development"
+     }
+    ],
+    "VpcEndpointType": "Gateway",
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/Vpc-development/DynamoDbGatewayEndpoint/Resource"
+   }
+  },
+  "WebSecurityGroupdevelopment94DCF979": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for web services in development",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow HTTP traffic",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow HTTPS traffic",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/WebSecurityGroup-development/Resource"
+   }
+  },
+  "DatabaseSecurityGroupdevelopment14A0A2B7": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for database services in development",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "255.255.255.255/32",
+      "Description": "Disallow all traffic",
+      "FromPort": 252,
+      "IpProtocol": "icmp",
+      "ToPort": 86
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "Description": "Allow MySQL access from web services",
+      "FromPort": 3306,
+      "IpProtocol": "tcp",
+      "SourceSecurityGroupId": {
+       "Fn::GetAtt": [
+        "WebSecurityGroupdevelopment94DCF979",
+        "GroupId"
+       ]
+      },
+      "ToPort": 3306
+     },
+     {
+      "Description": "Allow PostgreSQL access from web services",
+      "FromPort": 5432,
+      "IpProtocol": "tcp",
+      "SourceSecurityGroupId": {
+       "Fn::GetAtt": [
+        "WebSecurityGroupdevelopment94DCF979",
+        "GroupId"
+       ]
+      },
+      "ToPort": 5432
+     }
+    ],
+    "VpcId": {
+     "Ref": "Vpcdevelopment467DC569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/DatabaseSecurityGroup-development/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02OwYrCQBBEv8X7ZDbGLxAR8bI7JEuu0ml7sdfYE2Z6DEH89yUakj1V1aMoqrBFvrb5CvqY4fmatdzYR6WAVwN9PBEW9lF3aHY/UrudcalpGavUCOnIFlf6pPQNTUsLX9g2Ro8Myl7m8mj2RzfKJ+gBlHoYjAt8B6Vl+ChKQWguvJ9MaasKeLmRqJlI3eFezp1n0ak6x4owBdbhEHzqXi//g6cpKfoU8HXsK2mX9GncoBcvHxu73th89RuZs5BE+Ua2fOsfyvd8N0IBAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcStack-development/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "VpcIddevelopment": {
+   "Description": "VPC ID for development environment",
+   "Value": {
+    "Ref": "Vpcdevelopment467DC569"
+   }
+  },
+  "VpcCidrdevelopment": {
+   "Description": "VPC CIDR block for development environment",
+   "Value": {
+    "Fn::GetAtt": [
+     "Vpcdevelopment467DC569",
+     "CidrBlock"
+    ]
+   }
+  },
+  "PublicSubnetIdsdevelopment": {
+   "Description": "Public subnet IDs for development environment",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet1SubnetB91B489B"
+      },
+      ",",
+      {
+       "Ref": "VpcdevelopmentpublicsubnetdevelopmentSubnet2Subnet37E9F6C5"
+      }
+     ]
+    ]
+   }
+  },
+  "PrivateSubnetIdsdevelopment": {
+   "Description": "Private subnet IDs for development environment",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet1SubnetB172A060"
+      },
+      ",",
+      {
+       "Ref": "VpcdevelopmentprivatesubnetdevelopmentSubnet2Subnet9BD24A09"
+      }
+     ]
+    ]
+   }
+  },
+  "WebSecurityGroupIddevelopment": {
+   "Description": "Web security group ID for development environment",
+   "Value": {
+    "Fn::GetAtt": [
+     "WebSecurityGroupdevelopment94DCF979",
+     "GroupId"
+    ]
+   }
+  },
+  "DatabaseSecurityGroupIddevelopment": {
+   "Description": "Database security group ID for development environment",
+   "Value": {
+    "Fn::GetAtt": [
+     "DatabaseSecurityGroupdevelopment14A0A2B7",
+     "GroupId"
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
