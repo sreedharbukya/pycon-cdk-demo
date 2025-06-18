@@ -332,6 +332,7 @@ For questions and support:
 
 This project was created for **PyCon 2025 Singapore** as an educational resource for the Python community. Special thanks to:
 
+- **[Coherent.global](https://coherent.global)** - for supporting conference participation
 - PyCon Singapore organizers and volunteers
 - AWS CDK development team
 - Python community contributors
