@@ -10,3 +10,4 @@ wheels/
 .venv
 .history/
 cdk.out/
+cdk.context.json
