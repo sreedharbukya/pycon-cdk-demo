@@ -16,9 +16,6 @@
       "s3": [
         {
           "bucket_name": "pycon.day1.store.development"
-        },
-        {
-          "bucket_name": "pycon.day1.store.backup.development"
         }
       ]
     },

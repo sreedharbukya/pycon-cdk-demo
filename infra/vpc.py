@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from aws_cdk import (
     Stack,
     aws_ec2 as ec2,
@@ -7,10 +8,15 @@ from aws_cdk import (
 )
 from constructs import Construct
 
+# Set up logging
+logger = logging.getLogger(__name__)
+
 
 class VpcStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, env_name: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+        
+        logger.info(f"Initializing VPC stack for environment: {env_name}")
         
         # Load configuration from cdk.json
         config = self._load_config()
@@ -24,6 +30,8 @@ class VpcStack(Stack):
         
         if not vpc_config:
             raise ValueError(f"VPC configuration not found for environment '{env_name}'")
+        
+        logger.info(f"VPC configuration loaded - CIDR: {vpc_config.get('cidr')}, Max AZs: {vpc_config.get('max_azs')}")
         
         # Create VPC
         self.vpc = ec2.Vpc(
@@ -53,6 +61,8 @@ class VpcStack(Stack):
             ]
         )
         
+        logger.info(f"VPC created successfully for {env_name} environment")
+        
         # Create a security group for web services
         self.web_security_group = ec2.SecurityGroup(
             self,
@@ -74,6 +84,8 @@ class VpcStack(Stack):
             connection=ec2.Port.tcp(443),
             description="Allow HTTPS traffic"
         )
+        
+        logger.info(f"Web security group created with HTTP/HTTPS access for {env_name}")
         
         # Create a security group for database services
         self.db_security_group = ec2.SecurityGroup(
@@ -97,8 +109,12 @@ class VpcStack(Stack):
             description="Allow PostgreSQL access from web services"
         )
         
+        logger.info(f"Database security group created with MySQL/PostgreSQL access for {env_name}")
+        
         # Create VPC endpoints for common AWS services
         self._create_vpc_endpoints()
+        
+        logger.info(f"Creating CloudFormation outputs for {env_name} VPC stack")
         
         # CloudFormation outputs
         CfnOutput(
@@ -142,9 +158,13 @@ class VpcStack(Stack):
             value=self.db_security_group.security_group_id,
             description=f"Database security group ID for {env_name} environment"
         )
+        
+        logger.info(f"VPC stack initialization completed for {env_name}")
     
     def _create_vpc_endpoints(self):
         """Create VPC endpoints for AWS services"""
+        logger.info("Creating VPC endpoints for AWS services")
+        
         # S3 Gateway endpoint
         self.vpc.add_gateway_endpoint(
             "S3GatewayEndpoint",
@@ -158,14 +178,21 @@ class VpcStack(Stack):
             service=ec2.GatewayVpcEndpointAwsService.DYNAMODB,
             subnets=[ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS)]
         )
+        
+        logger.info("VPC endpoints created successfully for S3 and DynamoDB")
     
     def _load_config(self):
         """Load configuration from cdk.json"""
+        logger.debug("Loading configuration from cdk.json")
         config_path = os.path.join(os.path.dirname(__file__), "cdk.json")
         try:
             with open(config_path, 'r') as f:
-                return json.load(f)
+                config = json.load(f)
+                logger.debug("Configuration loaded successfully from cdk.json")
+                return config
         except FileNotFoundError:
+            logger.error("cdk.json not found in the infra directory")
             raise FileNotFoundError("cdk.json not found in the infra directory")
         except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON in cdk.json: {e}")
             raise ValueError(f"Invalid JSON in cdk.json: {e}") 
